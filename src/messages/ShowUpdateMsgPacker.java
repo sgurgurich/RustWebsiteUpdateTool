@@ -12,9 +12,9 @@ public class ShowUpdateMsgPacker{
 	private SocketManager       socketManager;
 	
 	public ShowUpdateMsgPacker() {
-		this.showUpdateMessage = null;
+		this.showUpdateMessage = new JsonObject();
 		this.dataManager       = InternalDataManager.getInstance();
-		this.socketManager     = SocketManager.getInstance();
+		//this.socketManager     = SocketManager.getInstance();
 	}
 
 	public void sendMsg(String showDate, String venueName, String location) {
@@ -24,7 +24,7 @@ public class ShowUpdateMsgPacker{
 		showUpdateMessage.addProperty("venueName", venueName);
 		showUpdateMessage.addProperty("location", location);
 		
-		socketManager.sendMessage(showUpdateMessage.getAsString());
+		//socketManager.sendMessage(showUpdateMessage.getAsString());
 		clearMsg();
 	}
 	
