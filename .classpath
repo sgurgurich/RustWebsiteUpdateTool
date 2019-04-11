@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="external/gson-2.6.2.jar"/>
 	<classpathentry kind="lib" path="external/javax.websocket-api-1.0-rc4.jar"/>
 	<classpathentry kind="lib" path="external/tyrus-standalone-client-1.9.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

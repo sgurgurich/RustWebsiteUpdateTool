@@ -10,10 +10,16 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
+import com.google.gson.JsonObject;
+
+import data.InternalDataManager;
+
 @ClientEndpoint
 public class SocketManager {
 	
 	private static SocketManager instance;
+	private InternalDataManager dataManager;
+	
 	
 	private URI endpointURI;
 	
@@ -28,11 +34,12 @@ public class SocketManager {
     private SocketMessageHandler msgHandler;
 
     public SocketManager() {
-		this.endpointURI = null;
-		this.msgHandler = new SocketMessageHandler();
+		this.endpointURI  = null;
+		this.msgHandler   = new SocketMessageHandler();
+		this.dataManager  = InternalDataManager.getInstance();
     	
         try {
-        	this.endpointURI = new URI("ws://rustnstardust.com:8080");
+        	this.endpointURI = new URI("ws://rustnstardust.com:8082");
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpointURI);
         } catch (Exception e) {
@@ -45,6 +52,7 @@ public class SocketManager {
     public void onOpen(Session userSession) {
         System.out.println("opening websocket");
         this.userSession = userSession;
+        sendNewConnectionMsg();
     }
 
 
@@ -67,6 +75,16 @@ public class SocketManager {
     
     public SocketMessageHandler getMsgHandler(){
     	return this.msgHandler;
+    }
+    
+    private void sendNewConnectionMsg() {
+    	JsonObject newConnectionMsg = new JsonObject();
+    	
+    	 newConnectionMsg.addProperty("type", "newConnection");
+         newConnectionMsg.addProperty("userName", dataManager.getUserName());
+         newConnectionMsg.addProperty("uniqueID", dataManager.getUserId());	
+         
+         sendMessage(newConnectionMsg.toString());
     }
 
 }

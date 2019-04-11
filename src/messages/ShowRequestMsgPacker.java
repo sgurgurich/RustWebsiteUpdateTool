@@ -5,25 +5,19 @@ import com.google.gson.JsonObject;
 import data.InternalDataManager;
 import sockets.SocketManager;
 
-public class ShowUpdateMsgPacker{
-	
+public class ShowRequestMsgPacker {
 	private JsonObject          showUpdateMessage;
 	private InternalDataManager dataManager;
 	private SocketManager       socketManager;
 	
-	public ShowUpdateMsgPacker() {
+	public ShowRequestMsgPacker() {
 		this.showUpdateMessage = new JsonObject();
 		this.dataManager       = InternalDataManager.getInstance();
-		//this.socketManager     = SocketManager.getInstance();
+		this.socketManager     = SocketManager.getInstance();
 	}
 
-	public void sendMsg(String showDate, String venueName, String location) {
+	public void sendMsg() {
 		packHeader();
-		
-		showUpdateMessage.addProperty("showDate", showDate);
-		showUpdateMessage.addProperty("venueName", venueName);
-		showUpdateMessage.addProperty("location", location);
-		
 		socketManager.sendMessage(showUpdateMessage.toString());
 		clearMsg();
 	}
@@ -34,7 +28,7 @@ public class ShowUpdateMsgPacker{
 	}
 	
 	private void packHeader() {
-		showUpdateMessage.addProperty("type", "showsUpdate");
+		showUpdateMessage.addProperty("type", "showsRequest");
 		showUpdateMessage.addProperty("userName", dataManager.getUserName());
 		showUpdateMessage.addProperty("uniqueID", dataManager.getUserId());	
 	}
